@@ -71,8 +71,8 @@ if __name__ == "__main__":
 
         result = wikipedia.summary(query, sentences=2)
         
-        speak(f"Wikipedia says that {results}")
-        print(f"Wikipedia says that {results}")
+        speak(f"Wikipedia says that {result}")
+        print(f"Wikipedia says that {result}")
         
     elif 'open youtube' in query:
         webbrowser.open("www.youtube.com")
@@ -95,8 +95,8 @@ if __name__ == "__main__":
 
         result = client.query(query)
         
-        speak(f"WolframAlpha claims {results}")
-        print(f"WolframAlpha claims {results}")          
+        speak(f"WolframAlpha claims {result}")
+        print(f"WolframAlpha claims {result}")          
 
     elif 'the time' in query:
         strTime = datetime.datetime.now().strftime("%H:%M:%S")
