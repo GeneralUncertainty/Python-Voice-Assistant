@@ -1,14 +1,11 @@
-# Standard library imports
-
-import pyttsx3 # pip install pyttsx3
-import speech_recognition as sr # pip install speechRecognition
-import wikipedia # pip install wikipedia
-
-# In built modules
+import wolframalpha
+import pyttsx3
 import datetime
 import webbrowser
 import os
-import smtplib
+import speech_recognition
+
+client = wolframalpha.Client('V4H6LE-P9QUT6ELE7')
 
 engine = pyttsx3.init('sapi5') 
 
@@ -20,12 +17,6 @@ engine.setProperty('voice', voices[0].id)
     espeak - Linux (Ubuntu, Debian, Kali Linux etc.)
     nsss - MAC OS    
 """
-
-emails = {
-            'mother': "mother@gmail.com",
-            'father': "father@gmail.com",
-            'sister': "sister@gmail.com"
-}
 
 def speak(audio):
     engine.say(audio)
@@ -68,29 +59,6 @@ def command():
 
     return query
 
-def sendMail(name):
-         
-        try:
-            str(name)
-            speak(f"What should I send to {name}?")
-            message = command()
-            to = emails[name]
-
-            server = smtplib.SMTP('smtp.gmail.com', 587) # for gmail services
-            server.ehlo()
-            server.starttls()
-            server.login('your-email-address', 'your-password')
-            server.sendmail('your-email-address', to, content)
-            server.close()
-
-
-
-            speak("Your email was successfully sent")
-
-        except Exception as e:
-            print(e)
-            speak("Unfortunately, your email could not be sent.")
-
 if __name__ == "__main__":
     greeting()
 
@@ -119,11 +87,19 @@ if __name__ == "__main__":
         webbrowser.open("www.netflix.com/browse")
 
     elif 'open amazon' in query:
-        webbrowser.open("www.amazon.in")  
+        webbrowser.open("www.amazon.in")
+
+    elif 'alpha' in query:
+        speak('Running computation ...')
+        query.replace("alpha", "")
+
+        result = client.query(query)
+        
+        speak(f"WolframAlpha claims {results}")
+        print(f"WolframAlpha claims {results}")          
 
     elif 'the time' in query:
         strTime = datetime.datetime.now().strftime("%H:%M:%S")
         print(f"The time is {strTime}")
         speak(f"The time is {strTime}")
 
-    sendMail(mother)
